@@ -6,3 +6,10 @@ export class InvalidCreateChannelRequest implements IError{
     }
     message: string;
 }
+
+export class InvalidJoinChannelRequest implements IError{
+    constructor(message: string){
+        this.message = message;
+    }
+    message: string;
+}

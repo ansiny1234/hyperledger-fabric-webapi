@@ -6,7 +6,7 @@
    "chaincodeId":"mycc",
    "channelName":"mychannel",
    "chaincodeVersion": "v0",
-   "GOPATH":"../../../test/fixtures",
+   "GOPATH":"/Users/jogando/go",
    "chaincodePath":"github.com/example_cc",
    "keyValueStore":"/tmp/fabric-client-kvs",
    "orgsList": ["org1","org2"],

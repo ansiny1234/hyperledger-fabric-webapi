@@ -10,6 +10,7 @@ var config = require('../config.json');
 
 import UserRouter from './routes/user.router';
 import ChannelRouter from './routes/channel.router';
+import ChaincodeRouter from './routes/chaincode.router';
 
 import * as ApiGeneralModels from './shared/models/api/general';
 
@@ -66,6 +67,7 @@ class App {
         this.express.use('/', router);
         this.express.use('/api/v1/user', UserRouter);
         this.express.use('/api/v1/channel', ChannelRouter);
+        this.express.use('/api/v1/chaincode', ChaincodeRouter);
     }
 
 }

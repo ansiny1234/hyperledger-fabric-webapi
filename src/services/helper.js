@@ -250,7 +250,8 @@ var getRegisteredUsers = function(username, userOrg, isJson) {
 	});
 };
 var setupChaincodeDeploy = function() {
-	process.env.GOPATH = path.join(__dirname, config.GOPATH);
+	//process.env.GOPATH = path.join(__dirname, config.GOPATH);
+    process.env.GOPATH = path.join(config.GOPATH);
 };
 var getLogger = function(moduleName) {
 	var logger = log4js.getLogger(moduleName);

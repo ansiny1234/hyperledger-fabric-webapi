@@ -7,6 +7,7 @@ The code is based on the code example provided by the fabric-sdk-node team.
 
 ## Install
 `npm install` for installing the packages
+Change the `config.json` file -> update `GOPATH` with your own GOPATH
 
 ## Build
 `gulp scripts` for building the `dist` folder.
@@ -20,3 +21,5 @@ The code is based on the code example provided by the fabric-sdk-node team.
 ## cleanup
 rm -rf /tmp/hfc-test-kvs_peerOrg* $HOME/.hfc-key-store/ /tmp/fabric-client-kvs_peerOrg*
 
+## Notes
+For installing chaincode, be sure to set the GOPATH value in the config.json file. The chaincode file is read by the packager concatenating GOPATH + 'src' + chaincodePath sent as parameter.
