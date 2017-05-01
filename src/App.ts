@@ -6,10 +6,10 @@ import * as express_jwt from 'express-jwt';
 import * as fs from 'fs';
 import * as cors from 'cors';
 
-var env = process.env.NODE_ENV || 'development';
-var config = require('./config.'+env);
+var config = require('../config.json');
 
 import UserRouter from './routes/user.router';
+import ChannelRouter from './routes/channel.router';
 
 import * as ApiGeneralModels from './shared/models/api/general';
 
@@ -65,7 +65,7 @@ class App {
 
         this.express.use('/', router);
         this.express.use('/api/v1/user', UserRouter);
-
+        this.express.use('/api/v1/channel', ChannelRouter);
     }
 
 }

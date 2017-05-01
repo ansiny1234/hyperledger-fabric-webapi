@@ -2,16 +2,16 @@ import {ApiRequest, ApiResponse} from "./general";
 
 //Create Channel
 export class CreateChannelRequestPayload{
-    username:string;
-    orgName:string;
+    channelName:string;
 }
 export class CreateChannelResponsePayload{
-    token:string;
+    
 }
 
 export class CreateChannelRequest extends ApiRequest{
     constructor(){
         super();
+        this.payload = new CreateChannelRequestPayload();
     }
     payload: CreateChannelRequestPayload;
 }
@@ -19,6 +19,7 @@ export class CreateChannelRequest extends ApiRequest{
 export class CreateChannelReponse extends ApiResponse{
     constructor(){
         super();
+        this.payload = new CreateChannelResponsePayload();
     }
     payload: CreateChannelResponsePayload;
 }

@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import UserService from '../services/user.service';
+import ChannelService from '../services/channel.service';
 
 import * as GeneralModels from '../shared/models/general';
 import * as ChannelApiModels from '../shared/models/api/channel';
@@ -8,7 +8,7 @@ import * as ChannelExceptionModels from '../shared/models/exceptions/channel';
 import * as jwt from 'jsonwebtoken';
 
 
-var config = require('../../config');
+var config = require('../../config.json');
 
 export class UserRouter {
     router: Router
@@ -18,30 +18,23 @@ export class UserRouter {
         this.init();
     }
 
-    public async enroll(req: Request, res: Response, next: NextFunction){
-        var response = new UserApiModels.EnrollUserReponse();
-        var request: UserApiModels.EnrollUserRequest = req.body;
-        response.payload = new UserApiModels.EnrollUserResponsePayload();
+    public async create(req: Request, res: Response, next: NextFunction){
+        var response = new ChannelApiModels.CreateChannelReponse();
+        var request: ChannelApiModels.CreateChannelRequest = req.body;
 
-        var userService = new UserService();
+        var channelService = new ChannelService();
         try{
-            if(request.payload.orgName==null){
-                throw new UserExceptionModels.InvalidEnrollRequest("orgName is missing");
-            }else if(request.payload.username==null){
-                throw new UserExceptionModels.InvalidEnrollRequest("username is missing");
+            if(request.payload.channelName==null){
+                throw new ChannelExceptionModels.InvalidCreateChannelRequest("channelName is missing");
             }
-
-            var enrollment = await userService.enroll(request.payload.username, request.payload.orgName);
-            var jwtPayload = new GeneralModels.JwtPayload();
-            jwtPayload.unm = request.payload.username;
-            jwtPayload.onm = request.payload.orgName;
-            jwtPayload.sct = enrollment.secret;
-
-            response.payload.token = jwt.sign(jwtPayload, config.jwtSecret);
-            response.message = "ok";
-
+            var jwtPayload:GeneralModels.JwtPayload = jwt.verify(request.token, config.jwtSecret);
+            var result = await channelService.create(request.payload.channelName,"../artifacts/channel/mychannel.tx", jwtPayload.unm, jwtPayload.onm);
+            response.message = result.message;
+            if(!result.success){
+                res.statusCode = 500;//internal server error
+            }
         }catch(err){
-            if(err instanceof UserExceptionModels.InvalidEnrollRequest){
+            if(err instanceof ChannelExceptionModels.InvalidCreateChannelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
             }else{
@@ -54,7 +47,7 @@ export class UserRouter {
     }
 
     init() {
-        this.router.post('/enroll', this.enroll);
+        this.router.post('/create', this.create);
     }
 
 }

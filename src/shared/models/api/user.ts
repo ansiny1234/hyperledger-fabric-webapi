@@ -9,10 +9,10 @@ export class EnrollUserResponsePayload{
     token:string;
 }
 
-
 export class EnrollUserRequest extends ApiRequest{
     constructor(){
         super();
+        this.payload = new EnrollUserRequestPayload();
     }
     payload: EnrollUserRequestPayload;
 }
@@ -20,6 +20,7 @@ export class EnrollUserRequest extends ApiRequest{
 export class EnrollUserReponse extends ApiResponse{
     constructor(){
         super();
+        this.payload = new EnrollUserResponsePayload();
     }
     payload: EnrollUserResponsePayload;
 }

@@ -8,7 +8,7 @@ import * as UserExceptionModels from '../shared/models/exceptions/user';
 import * as jwt from 'jsonwebtoken';
 
 
-var config = require('../../config');
+var config = require('../../config.json');
 
 export class UserRouter {
     router: Router
