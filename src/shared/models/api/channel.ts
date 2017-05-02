@@ -17,7 +17,7 @@ export class CreateChannelRequest extends ApiRequest{
     payload: CreateChannelRequestPayload;
 }
 
-export class CreateChannelReponse extends ApiResponse{
+export class CreateChannelResponse extends ApiResponse{
     constructor(){
         super();
         this.payload = new CreateChannelResponsePayload();

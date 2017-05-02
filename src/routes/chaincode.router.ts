@@ -49,6 +49,7 @@ export class UserRouter {
                 res.statusCode = 500;//internal server error
             }
         }catch(err){
+            console.log(err);
             if(err instanceof ChaincodeExceptionModels.InvalidInstallChaincodelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
@@ -62,7 +63,7 @@ export class UserRouter {
     }
 
     public async instantiate(req: Request, res: Response, next: NextFunction){
-        var response = new ChaincodeApiModels.InstantiateChaincodeReponse();
+        var response = new ChaincodeApiModels.InstantiateChaincodeResponse();
         var request: ChaincodeApiModels.InstantiateChaincodeRequest = req.body;
 
         var chaincodeService = new ChaincodeService();
@@ -101,6 +102,7 @@ export class UserRouter {
                 res.statusCode = 500;//internal server error
             }
         }catch(err){
+            console.log(err);
             if(err instanceof ChaincodeExceptionModels.InvalidInstantiateChaincodelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
@@ -114,7 +116,7 @@ export class UserRouter {
     }
 
     public async invoke(req: Request, res: Response, next: NextFunction){
-        var response = new ChaincodeApiModels.InvokeChaincodeReponse();
+        var response = new ChaincodeApiModels.InvokeChaincodeResponse();
         var request: ChaincodeApiModels.InvokeChaincodeRequest = req.body;
 
         var chaincodeService = new ChaincodeService();
@@ -149,6 +151,7 @@ export class UserRouter {
                 res.statusCode = 500;//internal server error
             }
         }catch(err){
+            console.log(err);
             if(err instanceof ChaincodeExceptionModels.InvalidInvokeChaincodelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
@@ -162,7 +165,7 @@ export class UserRouter {
     }
 
     public async query(req: Request, res: Response, next: NextFunction){
-        var response = new ChaincodeApiModels.QueryChaincodeReponse();
+        var response = new ChaincodeApiModels.QueryChaincodeResponse();
         var request: ChaincodeApiModels.QueryChaincodeRequest = req.body;
 
         var chaincodeService = new ChaincodeService();
@@ -194,6 +197,7 @@ export class UserRouter {
                 res.statusCode = 500;//internal server error
             }
         }catch(err){
+            console.log(err);
             if(err instanceof ChaincodeExceptionModels.InvalidQueryChaincodelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request

@@ -19,7 +19,7 @@ export class UserRouter {
     }
 
     public async create(req: Request, res: Response, next: NextFunction){
-        var response = new ChannelApiModels.CreateChannelReponse();
+        var response = new ChannelApiModels.CreateChannelResponse();
         var request: ChannelApiModels.CreateChannelRequest = req.body;
 
         var channelService = new ChannelService();
@@ -36,6 +36,7 @@ export class UserRouter {
                 res.statusCode = 500;//internal server error
             }
         }catch(err){
+            console.log(err);
             if(err instanceof ChannelExceptionModels.InvalidCreateChannelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
@@ -73,6 +74,7 @@ export class UserRouter {
                 res.statusCode = 500;//internal server error
             }
         }catch(err){
+            console.log(err);
             if(err instanceof ChannelExceptionModels.InvalidJoinChannelRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request

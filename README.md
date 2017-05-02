@@ -17,6 +17,12 @@ Change the `config.json` file -> update `GOPATH` with your own GOPATH
 ## Run 
 `docker-compose up` for initializing the fabric network. If the docker images are not present, they will be downloaded.
 `npm dist/index.js` for running the application
+
+## Test
+1) Create a new network by deleting previous fabric docker containers.
+2) install the 'request' package `npm install request`
+2) `node dist/test/e2e.js`
+
  
 ## cleanup
 rm -rf /tmp/hfc-test-kvs_peerOrg* $HOME/.hfc-key-store/ /tmp/fabric-client-kvs_peerOrg*

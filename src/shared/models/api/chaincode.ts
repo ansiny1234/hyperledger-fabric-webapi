@@ -49,7 +49,7 @@ export class InstantiateChaincodeRequest extends ApiRequest{
     payload: InstantiateChaincodeRequestPayload;
 }
 
-export class InstantiateChaincodeReponse extends ApiResponse{
+export class InstantiateChaincodeResponse extends ApiResponse{
     constructor(){
         super();
         this.payload = new InstantiateChaincodeResponsePayload();
@@ -77,7 +77,7 @@ export class InvokeChaincodeRequest extends ApiRequest{
     payload: InvokeChaincodeRequestPayload;
 }
 
-export class InvokeChaincodeReponse extends ApiResponse{
+export class InvokeChaincodeResponse extends ApiResponse{
     constructor(){
         super();
         this.payload = new InvokeChaincodeResponsePayload();
@@ -105,7 +105,7 @@ export class QueryChaincodeRequest extends ApiRequest{
     payload: QueryChaincodeRequestPayload;
 }
 
-export class QueryChaincodeReponse extends ApiResponse{
+export class QueryChaincodeResponse extends ApiResponse{
     constructor(){
         super();
         this.payload = new QueryChaincodeResponsePayload();

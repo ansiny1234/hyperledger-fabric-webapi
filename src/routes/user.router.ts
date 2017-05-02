@@ -41,6 +41,7 @@ export class UserRouter {
             response.message = "ok";
 
         }catch(err){
+            console.log(err);
             if(err instanceof UserExceptionModels.InvalidEnrollRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
