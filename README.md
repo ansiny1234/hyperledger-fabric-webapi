@@ -15,11 +15,11 @@ Change the `config.json` file -> update `GOPATH` with your own GOPATH
 **to be fixed: manually copy `src/artifacts` to the `dist/artifacts` folder
 
 ## Run 
-`docker-compose up` for initializing the fabric network. If the docker images are not present, they will be downloaded.
+`cd dist/artifacts` and `docker-compose up` for initializing the fabric network. If the docker images are not present, they will be downloaded.
 `npm dist/index.js` for running the application
 
 ## Test
-1) Create a new network by deleting previous fabric docker containers.
+1) Create a new network by deleting previous fabric docker containers. 
 2) install the 'request' package `npm install request`
 2) `node dist/test/e2e.js`
 
