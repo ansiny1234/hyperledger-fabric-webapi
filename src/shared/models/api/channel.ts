@@ -49,3 +49,27 @@ export class JoinChannelReponse extends ApiResponse{
     }
     payload: JoinChannelResponsePayload;
 }
+
+//List Peer Channels
+export class ListPeerChannelsRequestPayload{
+    peer:string;//"localhost:7051"
+}
+export class ListPeerChannelsResponsePayload{
+    channels:any[];
+}
+
+export class ListPeerChannelsRequest extends ApiRequest{
+    constructor(){
+        super();
+        this.payload = new ListPeerChannelsRequestPayload();
+    }
+    payload: ListPeerChannelsRequestPayload;
+}
+
+export class ListPeerChannelsReponse extends ApiResponse{
+    constructor(){
+        super();
+        this.payload = new ListPeerChannelsResponsePayload();
+    }
+    payload: ListPeerChannelsResponsePayload;
+}

@@ -151,6 +151,53 @@ export class ChannelService {
         });
     }
 
+    listPeerChannels(peer:string, username:string, orgName:string){
+        var chain = helper.getChainForOrg(orgName);
+
+        var peers = [];
+        peers.push(helper.getPeerAddressByName(orgName, peer));
+
+        var targets = helper.getTargets(peers, orgName);
+        helper.setupPeers(chain, orgName, targets);
+
+        return new Promise<any>(function(resolve, reject) {
+            helper.getRegisteredUsers(username, orgName).then((member) => {
+                return chain.queryChannels(targets[0]);
+            }, (err) => {
+                var message = 'Failed to get submitter "' + username + '"';
+                logger.info(message);
+                return reject(message);
+            }).then((response) => {
+                if (response) {
+                    logger.debug('<<< channels >>>');
+                    var channelNames = [];
+                    for (let i = 0; i < response.channels.length; i++) {
+                        channelNames.push('channel id: ' + response.channels[i].channel_id);
+                    }
+                    logger.debug(channelNames);
+                    var result = {
+                        success:true,
+                        channels: response.channels
+                    };
+                    return resolve(result);
+                } else {
+                    var message = 'response_payloads is null';
+                    logger.info(message);
+                    return reject(message);
+                }
+            }, (err) => {
+                var message = 'Failed to send query due to error: ' + err.stack ? err.stack : err;
+                logger.info(message);
+                return reject(message);
+            }).catch((err) => {
+                var message = 'Failed to query with error:' + err.stack ? err.stack : err;
+                logger.info(message);
+                return reject(message);
+
+            });
+        });
+    }
+
     closeEventHubConnections(){
         for (var key of this.allEventHubs) {
 			var eventhub = this.allEventHubs[key];

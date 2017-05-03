@@ -62,7 +62,25 @@ setTimeout(async function(){
         return;
     }
 
-    //4) install chaincode
+    //wait some time
+    var seconds= 2;
+    console.log('waiting for ' + seconds + ' seconds...')
+    await wait(seconds);
+
+    //4) list channels of peer
+    try{
+        console.log("channel/list: starting...");
+        var listPeerChannelResponse:ChannelApiModels.ListPeerChannelsReponse 
+            = await listPeerChannels(enrollmentResponse.payload.token);
+        console.log("channel/list: finished");
+        console.log("channel/list response: "+ JSON.stringify(listPeerChannelResponse.payload))
+    }catch(err){
+        console.error("channel/list: ERROR!");
+        console.error(err);
+        return;
+    }
+
+    //5) install chaincode
     try{
         console.log("chaincode/install: starting...");
         var installChaincodeResponse:ChaincodeApiModels.InstallChaincodeReponse 
@@ -75,7 +93,7 @@ setTimeout(async function(){
         return;
     }
 
-    //5) instantiate chaincode
+    //6) instantiate chaincode
     try{
         console.log("chaincode/instantiate: starting...");
         var instantiateChaincodeResponse:ChaincodeApiModels.InstantiateChaincodeResponse 
@@ -88,7 +106,7 @@ setTimeout(async function(){
         return;
     }
     
-    //5) invoke chaincode
+    //7) invoke chaincode
     try{
         console.log("chaincode/invoke: starting...");
         var invokeChaincodeResponse:ChaincodeApiModels.InvokeChaincodeResponse 
@@ -102,7 +120,7 @@ setTimeout(async function(){
         return;
     }
 
-    //6) query chaincode
+    //8) query chaincode
     try{
         console.log("chaincode/query: starting...");
         var queryChaincodeResponse:ChaincodeApiModels.QueryChaincodeResponse 
@@ -118,7 +136,13 @@ setTimeout(async function(){
     console.log("\nE2E test ended");
 },100);
 
-
+async function wait(seconds:number){
+    return new Promise<UserApiModels.EnrollUserReponse>(function(resolve, reject) {
+        setTimeout(function(){
+            return resolve();
+        },seconds*1000);
+    });
+}
 
 async function enrollUser():Promise<UserApiModels.EnrollUserReponse>{
     var username = "testuser_"+Math.floor(Math.random() * (9999 - 1)) + 1;//random username
@@ -176,6 +200,26 @@ async function joinChannel(jwtToken:string):Promise<ChannelApiModels.JoinChannel
     joinRequest.payload.peers = ["localhost:7051","localhost:7056"];
 
     return new Promise<ChannelApiModels.JoinChannelReponse>(function(resolve, reject) {
+        request.post({
+            headers: {
+                'content-type': 'application/json'
+            },
+            uri: url,
+            body: JSON.stringify(joinRequest)
+        }, function(err, resp, data) {
+            handleResponse(err, resp, data, reject, resolve);
+        });
+    });
+}
+
+async function listPeerChannels(jwtToken:string):Promise<ChannelApiModels.ListPeerChannelsReponse>{
+    var url = baseUrl + "channel/listPeerChannels";
+
+    var joinRequest = new ChannelApiModels.ListPeerChannelsRequest();
+    joinRequest.token = jwtToken;
+    joinRequest.payload.peer = "peer1";
+
+    return new Promise<ChannelApiModels.ListPeerChannelsReponse>(function(resolve, reject) {
         request.post({
             headers: {
                 'content-type': 'application/json'

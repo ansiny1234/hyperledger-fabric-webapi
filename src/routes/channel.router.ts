@@ -87,9 +87,45 @@ export class UserRouter {
         res.send(response);
     }
 
+    public async listPeerChannels(req: Request, res: Response, next: NextFunction){
+        var response = new ChannelApiModels.ListPeerChannelsReponse();
+        var request: ChannelApiModels.ListPeerChannelsRequest = req.body;
+
+        var channelService = new ChannelService();
+        try{
+            if(request.payload.peer==null){
+                throw new ChannelExceptionModels.InvalidListPeerChannelsRequest("peer is missing");
+            }
+            var jwtPayload:GeneralModels.JwtPayload = jwt.verify(request.token, config.jwtSecret);
+            var result = await channelService.listPeerChannels(
+                request.payload.peer, 
+                jwtPayload.unm, //username
+                jwtPayload.onm //orgname
+            );
+            response.message = result.message;
+            response.payload.channels = result.channels;
+            if(!result.success){
+                res.statusCode = 500;//internal server error
+            }
+        }catch(err){
+            console.log(err);
+            if(err instanceof ChannelExceptionModels.InvalidListPeerChannelsRequest){
+                response.message = err.message;
+                res.statusCode = 400;//bad request
+            }else{
+                response.message = "error";
+                res.statusCode = 500;//internal server error
+            }
+        }
+
+        res.send(response);
+    }
+
+
     init() {
         this.router.post('/create', this.create);
         this.router.post('/join', this.join);
+        this.router.post('/listPeerChannels', this.listPeerChannels);
     }
 
 }
